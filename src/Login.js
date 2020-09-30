@@ -9,13 +9,23 @@ function Login() {
 
   const [{}, dispatch] = useStateValue();
 
-  const signIn = () => {
-  	auth.signInWithPopup(provider).then((result) => {dispatch({
-  			type: actionTypes.SET_USER,
-  			user: result.user,
-  		})
-  	}).catch((error) => alert(error.message));
-  };
+    const signIn=()=>{
+        auth.signInWithPopup(provider)
+        .then(result=>{
+            console.log(result.user);
+            dispatch({
+                type:actionTypes.SET_USER,
+                user:result.user,
+            });
+            dispatch({
+                type:actionTypes.SET_SESSION,
+                uid:result.user.uid,
+                displayName:result.user.displayName,
+                photoURL:result.user.photoURL
+            })
+        })
+        .catch((err)=>alert(err.message));
+     };
 
   return  ( 
   	<div className="login">
